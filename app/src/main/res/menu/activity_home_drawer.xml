@@ -17,9 +17,9 @@
             android:icon="@drawable/ic_thumb_up_black_24dp"
             android:title="Liked by me" />
         <item
-            android:id="@+id/nav_subscription"
+            android:id="@+id/nav_upload"
             android:icon="@drawable/ic_email_black_24dp"
-            android:title="Subscription" />
+            android:title="Upload" />
     </group>
 
     <item android:title="Communicate">

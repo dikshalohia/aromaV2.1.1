@@ -82,7 +82,7 @@ public class RecipeDetails extends AppCompatActivity {
         listView_steps =(ListView)findViewById(R.id.steps_listView);
         list_ingredients.setAdapter(ingredientAdapter);
         listView_steps.setAdapter(stepsAdapter);
-        btnLike = (FloatingActionButton)findViewById(R.id.btnLike);
+       btnLike = (FloatingActionButton)findViewById(R.id.btnLike);
         btnLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,7 +97,7 @@ public class RecipeDetails extends AppCompatActivity {
 
 
             }
-        });
+      });
         food_name =(TextView)findViewById(R.id.food_name);
         //txtview_steps=(TextView)findViewById(R.id.)
         //recipe_directions =(TextView)findViewById(R.id.recipe_description);

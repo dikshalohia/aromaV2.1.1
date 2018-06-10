@@ -16,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -28,8 +29,13 @@ import com.example.android.aroma.Interface.ItemClickListener;
 import com.example.android.aroma.ViewHolder.MenuAdapter;
 import com.example.android.aroma.ViewHolder.MenuViewHolder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -43,6 +49,7 @@ public class Home extends AppCompatActivity
     public static final String EXTRA_NAME = "name";
 
     private ArrayList<Category> menuList;
+    private DatabaseReference mDatabase;
     MenuAdapter menuAdapter;
    FirebaseDatabase database;
    DatabaseReference category;
@@ -234,9 +241,42 @@ public class Home extends AppCompatActivity
 
         } else if (id == R.id.nav_account) {
 
+            Toast.makeText(this, "My account Clicked", Toast.LENGTH_SHORT).show();
+
+            FirebaseUser currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser() ;
+
+            mDatabase = FirebaseDatabase.getInstance().getReference();
+
+
+
+            mDatabase.child("Users").child(currentFirebaseUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener()
+            {
+
+                @Override
+
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    String string = dataSnapshot.getValue().toString();
+                    //System.out.println(dataSnapshot.child("liked_recipes").getValue());
+                    try{
+                        JSONObject jsonObject = new JSONObject(dataSnapshot.child("liked_recipes").getValue().toString());
+                        System.out.println(jsonObject.getString("0"));
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+
+
+                }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                    System.out.println("Error");
+
+                }
+            });
+
         } else if (id == R.id.nav_liked) {
 
-        } else if (id == R.id.nav_subscription) {
+        } else if (id == R.id.nav_upload) {
 
         } else if (id == R.id.nav_share) {
 
