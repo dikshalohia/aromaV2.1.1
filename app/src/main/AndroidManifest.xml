@@ -38,6 +38,7 @@
             android:name=".forgot_password"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".HomePage" />
+        <activity android:name=".user_profile"/>
         <activity
             android:name=".Home"
             android:label="@string/title_activity_home"

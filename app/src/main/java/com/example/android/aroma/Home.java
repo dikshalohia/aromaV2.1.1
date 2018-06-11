@@ -43,6 +43,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Home extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,MenuAdapter.OnItemClickListener {
@@ -243,7 +244,7 @@ public class Home extends AppCompatActivity
 
             Toast.makeText(this, "My account Clicked", Toast.LENGTH_SHORT).show();
 
-            FirebaseUser currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser() ;
+            final FirebaseUser currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser() ;
 
             mDatabase = FirebaseDatabase.getInstance().getReference();
 
@@ -257,9 +258,29 @@ public class Home extends AppCompatActivity
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     String string = dataSnapshot.getValue().toString();
                     //System.out.println(dataSnapshot.child("liked_recipes").getValue());
+                    ArrayList<String> likedRecipes = new ArrayList<String>();
                     try{
                         JSONObject jsonObject = new JSONObject(dataSnapshot.child("liked_recipes").getValue().toString());
-                        System.out.println(jsonObject.getString("0"));
+                        System.out.println(jsonObject.length());
+
+                        for(int i =0;i<jsonObject.length();i++){
+                            likedRecipes.add(jsonObject.getString(String.valueOf(i)));
+                        }
+                        /*Add name of new Activity here*/
+                        Intent intent = new Intent(Home.this,user_profile.class); //Add the new Activity class here
+
+                        Bundle bundle = new Bundle();
+
+                        bundle.putSerializable("Liked_recipes",likedRecipes);
+                        bundle.putString("UserId",currentFirebaseUser.getUid());
+                        bundle.putString("Email",currentFirebaseUser.getEmail());
+                        bundle.putString("Username",currentFirebaseUser.getEmail().split("@")[0]);
+
+                        intent.putExtras(bundle);
+                        startActivity(intent);
+                        //intent.putExtra("Liked_Recipes",likedRecipes);
+
+
                     }catch (Exception e){
                         e.printStackTrace();
                     }
